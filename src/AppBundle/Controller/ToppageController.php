@@ -12,6 +12,7 @@ class ToppageController extends Controller
      */
     public function indexAction()
     {
+        return $this->render('Toppage/index.html.twig');
     }
 
 }
