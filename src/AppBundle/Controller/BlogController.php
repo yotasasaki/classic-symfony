@@ -21,7 +21,7 @@ class BlogController extends Controller
                 'targetDate' => '2015年1月3日',
                 'title'      => '本年もよろしくお願い致します',
             ],
-        ]   
+        ];   
 
         return $this->render('Blog/latestList.html.twig',
             ['blogList' => $blogList]
