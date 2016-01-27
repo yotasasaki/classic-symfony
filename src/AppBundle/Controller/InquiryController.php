@@ -34,15 +34,7 @@ class InquiryController extends Controller
         $form->handleRequest($request); //送信された情報をフォームオブジェクトに取り込む
         if ($form->isValid())
         {
-            $data = $form->getData();
-
-            //エンティティインスタンスの準備
-            $inquiry = new Inquiry();
-            $inquiry->setName($data['name']);
-            $inquiry->setEmail($data['email']);
-            $inquiry->setTel($data['tel']);
-            $inquiry->setType($data['type']);
-            $inquiry->setContent($data['content']);
+            $inquiry = $form->getData();
 
             $em = $this->getDoctrine()->getManager(); //エンティティマネージャを取得
             $em->persist($inquiry); //エンティティをDoctrine管理下へ
@@ -55,7 +47,7 @@ class InquiryController extends Controller
                 ->setBody(
                     $this->renderView(
                         'mail/inquiry.txt.twig',
-                        ['data' => $data]
+                        ['data' => $inquiry]
                     )
                 );
 
@@ -81,7 +73,7 @@ class InquiryController extends Controller
 
     private function createInquiryForm()
     {
-        return $this->createFormBuilder()
+        return $this->createFormBuilder(new Inquiry()) //エンティティを渡す
             ->add('name', 'text')
             ->add('email', 'text')
             ->add('tel', 'text', [
