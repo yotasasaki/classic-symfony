@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Inquiry;
 
 /**
  * @Route("/inquiry")
@@ -34,6 +35,18 @@ class InquiryController extends Controller
         if ($form->isValid())
         {
             $data = $form->getData();
+
+            //エンティティインスタンスの準備
+            $inquiry = new Inquiry();
+            $inquiry->setName($data['name']);
+            $inquiry->setEmail($data['email']);
+            $inquiry->setTel($data['tel']);
+            $inquiry->setType($data['type']);
+            $inquiry->setContent($data['content']);
+
+            $em = $this->getDoctrine()->getManager(); //エンティティマネージャを取得
+            $em->persist($inquiry); //エンティティをDoctrine管理下へ
+            $em->flush(); //変更分をデータベースへ適用
 
             $message = \Swift_Message::newInstance() //メールメッセージの作成
                 ->setSubject('Webサイトからのお問い合わせ')
