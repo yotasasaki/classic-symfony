@@ -19,7 +19,7 @@
 
             {# {{ form(form) }} #}{# 簡易フォームを使う場合 #}
 
-            {{ form_start(form) }} {# フォームの開始タグを出力 #}
+            {{ form_start(form, {'attr':{'novalidate': 'novalidate'}}) }} {# フォームの開始タグを出力 #}
             <table class="table">
                 <tr>
                     <th><i class="fa fa-circle"></i> お名前</th>
