@@ -26,6 +26,10 @@ class AdminInquiryEditController extends Controller
                 'empty_data' => 0,
                 'expanded'   => true,
             ])
+            ->add('processMemo', 'textarea')
+            ->add('submit', 'submit', [
+                'label' => '保存',
+            ])
             ->getForm();
     }
 
@@ -38,7 +42,7 @@ class AdminInquiryEditController extends Controller
     {
         $form = $this->createInquiryForm($inquiry);
 
-        return $this->render('Admin/Inquiry/edit.thml.twig',
+        return $this->render('Admin/Inquiry/edit.html.twig',
             [
                 'form' => $form->createView(),
                 'inquiry' => $inquiry
@@ -54,7 +58,7 @@ class AdminInquiryEditController extends Controller
     public function inputPostAction(Request $request, Inquiry $inquiry)
     {
         $form = $this->createInquiryForm($inquiry);
-        $form->hundleRequest($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
