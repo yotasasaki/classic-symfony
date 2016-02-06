@@ -1,13 +1,26 @@
 # To get started with security, check out the documentation:
 # http://symfony.com/doc/current/book/security.html
 security:
+    encoders:
+        Symfony\Component\Security\Core\User\User:
+            algorithm: bcrypt
+            cost:     13
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
         in_memory:
-            memory: ~
+            memory:
+                users:
+                    admin:
+                        password: "$2y$10$31yS9AM/.slTXRyducljOO0SjTdsa/MBjURggtLms5we4fSIQcpOK"
+                        roles: [ 'ROLE_ADMIN' ]
 
     firewalls:
+        admin_secured_area:
+            pattern: ^/admin/
+            http_basic:
+                realm: "Secured Admin Area"
+
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -22,3 +35,5 @@ security:
 
             # form_login: ~
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+    access_control:
+        - { path: ^/admin/, roles: ROLE_ADMIN }
